@@ -1,5 +1,9 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import heroImg from './assets/hero.png'
 import './App.css'
-import '../src/Pizza/Pizza.css'
+import './Pizza.css'
 
 const pizzaData = [
   {
@@ -66,32 +70,10 @@ function Header(){
 }
 
 function Menu(){
-  const pizzas=pizzaData
-  // const pizzas=[]
-  const numPizzas=pizzas.length
   return (
     <main className='menu'>
       <h2>Our Menu</h2>
-      {
-        numPizzas>0 ? (<ul className='pizzas'>
-      {
-        pizzas.map((pizza)=>(
-          <Pizza pizza={pizza} key={pizza.name}/>
-        ))
-      }
-      </ul>):<p>We are still working on our menu. Please come back later :)</p>
-      }
-
-      {/* {
-        numPizzas >0 && (<ul className='pizzas'>
-      {
-        pizzas.map((pizza)=>(
-          <Pizza pizza={pizza} key={pizza.name}/>
-        ))
-      }
-      </ul>)
-      } */}
-      {/* <Pizza
+      <Pizza
       name="Pizza"
       ingredients="Tomato, mozarella, spinach, and ricotta cheese"
       image="/pizzas/spinaci.jpg"
@@ -102,30 +84,27 @@ function Menu(){
       ingredients="Tomato, mushrooms"
       image="/pizzas/funghi.jpg"
       price={12}
-      /> */}
+      />
     </main>
   )
 }
 
 function Pizza(props){
   console.log(props)
-
-  if(props.pizza.soldOut) return null
-
   return (
-  <li className='pizza'>
-    <img src={props.pizza.photoName} alt="pizza"/>
+  <div className='pizza'>
+    <img src={props.image} alt="pizza"/>
     <div>
-    <h3>{props.pizza.name}</h3>
-    <p>{props.pizza.ingredients}</p>
-    <p>{props.pizza.price}</p>
+    <h3>{props.name}</h3>
+    <p>{props.ingredients}</p>
+    <p>{props.price}</p>
     </div>
-  </li>)
+  </div>)
 }
 
 function Footer(){
   const hour=new Date().getHours().toLocaleString()
-  const openHour=0
+  const openHour=9
   const closedHour=23
   const isOpened=hour>=openHour && hour<closedHour
   console.log(isOpened)
@@ -137,28 +116,9 @@ function Footer(){
   // }
 
   console.log(hour)
-  return <footer className='footer'>
-    {isOpened ? 
-    (<Order closedHour={closedHour}/>):(<p>we are welcome you between {openHour}:00 and {closedHour}:00</p>)
-    }
-    {/* {isOpened && 
-    <div className='order'>
-    <p>We're open until {closedHour}:00. Come visit us or order online.</p>
-    <button className='btn'>Order</button>
-    </div>
-    } */}
-    {/* {new Date().toLocaleTimeString()}. We're currently open. */}
-    </footer>
+  return <footer className='footer'>{new Date().toLocaleTimeString()}. We're currently open.</footer>
 }
 
-function Order(props){
-    return (
-    <div className='order'>
-    <p>We're open until {props.closedHour}:00. Come visit us or order online.</p>
-    <button className='btn'>Order</button>
-    </div>
-    )
-}
 
 
 export default App
