@@ -1,163 +1,58 @@
-import './App.css'
-import '../src/Pizza/Pizza.css'
+import React, { useState } from 'react'
+import "../src/steps.css"
 
-const pizzaData = [
-  {
-    name: "Focaccia",
-    ingredients: "Bread with italian olive oil and rosemary",
-    price: 6,
-    photoName: "pizzas/focaccia.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Margherita",
-    ingredients: "Tomato and mozarella",
-    price: 10,
-    photoName: "pizzas/margherita.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Spinaci",
-    ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
-    price: 12,
-    photoName: "pizzas/spinaci.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Funghi",
-    ingredients: "Tomato, mozarella, mushrooms, and onion",
-    price: 12,
-    photoName: "pizzas/funghi.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Salamino",
-    ingredients: "Tomato, mozarella, and pepperoni",
-    price: 15,
-    photoName: "pizzas/salamino.jpg",
-    soldOut: true,
-  },
-  {
-    name: "Pizza Prosciutto",
-    ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
-    price: 18,
-    photoName: "pizzas/prosciutto.jpg",
-    soldOut: false,
-  },
-];
+const messages=["Learn React","Apply for Jobs","Invest your new income"]
 
-function App() {
-
-  return (
-    <div className='container'>
-    <Header/>
-    <Menu/>
-    <Footer/>
-    </div>
-  )
+const App=()=>{
+  return <div>
+    <Steps/>
+    <Steps/>
+  </div>
 }
 
-function Header(){
-  return (
-    <header className='header'>
-      <h1>Fast React Pizza Co.</h1>
-    </header>
-  )
-}
 
-function Menu(){
-  const pizzas=pizzaData
-  // const pizzas=[]
-  const numPizzas=pizzas.length
-  return (
-    <main className='menu'>
-      <h2>Our Menu</h2>
-      {
-        numPizzas>0 ? (<ul className='pizzas'>
-      {
-        pizzas.map((pizza)=>(
-          <Pizza pizza={pizza} key={pizza.name}/>
-        ))
-      }
-      </ul>):<p>We are still working on our menu. Please come back later :)</p>
-      }
+function Steps() {
+  const [step,setStep]=useState(1)
+  const [isOpen,setIsOpen]=useState(true)
+  console.log(step)
 
-      {/* {
-        numPizzas >0 && (<ul className='pizzas'>
-      {
-        pizzas.map((pizza)=>(
-          <Pizza pizza={pizza} key={pizza.name}/>
-        ))
-      }
-      </ul>)
-      } */}
-      {/* <Pizza
-      name="Pizza"
-      ingredients="Tomato, mozarella, spinach, and ricotta cheese"
-      image="/pizzas/spinaci.jpg"
-      price={10}
-      />
-      <Pizza
-      name="Pizza Funghi"
-      ingredients="Tomato, mushrooms"
-      image="/pizzas/funghi.jpg"
-      price={12}
-      /> */}
-    </main>
-  )
-}
-
-function Pizza(props){
-  console.log(props)
-
-  if(props.pizza.soldOut) return null
-
-  return (
-  <li className='pizza'>
-    <img src={props.pizza.photoName} alt="pizza"/>
-    <div>
-    <h3>{props.pizza.name}</h3>
-    <p>{props.pizza.ingredients}</p>
-    <p>{props.pizza.price}</p>
-    </div>
-  </li>)
-}
-
-function Footer(){
-  const hour=new Date().getHours().toLocaleString()
-  const openHour=0
-  const closedHour=23
-  const isOpened=hour>=openHour && hour<closedHour
-  console.log(isOpened)
-
-  // if(hour>=openHour && hour<closedHour){
-  //   alert("we are open")
-  // }else{
-  //   alert("we are closed")
-  // }
-
-  console.log(hour)
-  return <footer className='footer'>
-    {isOpened ? 
-    (<Order closedHour={closedHour}/>):(<p>we are welcome you between {openHour}:00 and {closedHour}:00</p>)
+  const handlePrevious=()=>{
+    // alert("Previous")
+    if(step>1){
+      setStep((step)=>step-1)
     }
-    {/* {isOpened && 
-    <div className='order'>
-    <p>We're open until {closedHour}:00. Come visit us or order online.</p>
-    <button className='btn'>Order</button>
-    </div>
-    } */}
-    {/* {new Date().toLocaleTimeString()}. We're currently open. */}
-    </footer>
-}
+  }
+  
+  const handleNext=()=>{
+    // alert("Next")
+    if(step<3)
+      setStep((step)=>step+1)
+  }
 
-function Order(props){
-    return (
-    <div className='order'>
-    <p>We're open until {props.closedHour}:00. Come visit us or order online.</p>
-    <button className='btn'>Order</button>
+  return (
+    <>
+        <button className='close' onClick={()=>setIsOpen(is=>!is)}>&times;</button>
+      {
+        isOpen && 
+      <div className='steps'>
+      <div className='numbers'> 
+      <div className={step>=1?'active':""}>1</div>
+      <div className={step>=2?'active':""}>2</div>
+      <div className={step>=3?'active':""}>3</div>
+      </div>
+      <p className='message'>step {step} : {messages[step-1]}</p>
+      <div className='buttons'>
+        <button style={{background:"#7950f2",color:"#fff"}}
+        onClick={handlePrevious}
+        >Previous</button>
+        <button style={{background:"#7950f2",color:"#fff"}}
+        onClick={handleNext}
+        >Next</button>
+      </div>
     </div>
-    )
+      }
+    </>
+  )
 }
 
 
