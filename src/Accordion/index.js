@@ -27,7 +27,7 @@ function App() {
 function Accordion({ data }) {
   return (
     <div className="accordion">
-      <AccordionItem data={data} />
+      <AccordionItem data={data}></AccordionItem>
     </div>
   )
 }
@@ -67,4 +67,3 @@ function AccordionItem({ data }) {
 }
 
 export default App
-useState, import React from 'react'
